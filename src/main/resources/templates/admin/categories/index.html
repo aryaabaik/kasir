@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori Produk | AMANA POS</title>
+    <link rel="stylesheet" th:href="@{/css/categories.css}">
+</head>
+<body>
+    <div class="page-layout">
+        <!-- ─── Scrapbook Sidebar ─── -->
+        <aside class="sidebar" aria-label="Navigasi Utama">
+            <div class="sidebar-brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 17c3.5-3 7 1 10.5-2 2-1.7 4.5-1 7.5-1" stroke="#C7A45D"/>
+                        <path d="M2 12c4-3.5 8 1 12-2 2.5-1.8 5-1 8-1" stroke="#FFFFFF"/>
+                        <circle cx="12" cy="6" r="2.5" fill="#C7A45D" stroke="none"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>AMANA POS</h1>
+                    <p>Atelier & Store Admin</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <p class="nav-label">Menu Utama</p>
+                <ul class="nav-list">
+                    <li>
+                        <a th:href="@{/admin/dashboard}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="7" height="9" x="3" y="3" rx="1.5"/>
+                                    <rect width="7" height="5" x="14" y="3" rx="1.5"/>
+                                    <rect width="7" height="9" x="14" y="12" rx="1.5"/>
+                                    <rect width="7" height="5" x="3" y="16" rx="1.5"/>
+                                </svg>
+                            </span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/products}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m2 9 3-6h14l3 6v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9Z"/>
+                                    <path d="M2 9h20"/>
+                                    <path d="M10 13h4"/>
+                                </svg>
+                            </span>
+                            <span>Produk</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/categories}" class="nav-link active">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+                                    <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+                                    <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+                                </svg>
+                            </span>
+                            <span>Kategori</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/stock}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                                    <path d="m3.3 7 8.7 5 8.7-5"/>
+                                    <path d="M12 22V12"/>
+                                </svg>
+                            </span>
+                            <span>Stok</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/transactions}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+                                    <path d="M14 8H8"/>
+                                    <path d="M16 12H8"/>
+                                    <path d="M13 16H8"/>
+                                </svg>
+                            </span>
+                            <span>Transaksi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/reports}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" x2="18" y1="20" y2="10"/>
+                                    <line x1="12" x2="12" y1="20" y2="4"/>
+                                    <line x1="6" x2="6" y1="20" y2="14"/>
+                                </svg>
+                            </span>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/users}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </span>
+                            <span>Pengguna</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <form class="logout-form" th:action="@{/logout}" method="post">
+                    <button class="logout-button" type="submit">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" x2="9" y1="12" y2="12"/>
+                        </svg>
+                        <span>Keluar</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- ─── Main Content ─── -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-content">
+                    <div class="eyebrow-tag">
+                        <span class="eyebrow-tag-dot" aria-hidden="true"></span>
+                        <span>KATALOG AMANA</span>
+                    </div>
+                    <h2>Kategori Produk</h2>
+                    <p>Kelola kategori untuk mengelompokkan koleksi pakaian dan produk toko.</p>
+                </div>
+                <div class="header-actions">
+                    <a th:href="@{/categories/create}" class="btn-primary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>Tambah Kategori</span>
+                    </a>
+                </div>
+            </header>
+
+            <div th:if="${success}" class="alert success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert error" th:text="${error}"></div>
+
+            <section class="content-card">
+                <div class="card-heading">
+                    <div>
+                        <h3>Daftar Kategori</h3>
+                        <p>Kategori yang tersimpan dan aktif dalam sistem inventaris.</p>
+                    </div>
+                    <span class="count-badge" th:text="${categories.size()} + ' kategori'">0 kategori</span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="number-column">No.</th>
+                                <th>Nama Kategori</th>
+                                <th>Deskripsi</th>
+                                <th class="action-column">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(categories)}">
+                                <td colspan="4" class="empty-state">
+                                    <div class="empty-icon" aria-hidden="true">
+                                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 8px;">
+                                            <rect width="18" height="18" x="3" y="3" rx="2"/>
+                                            <path d="M3 9h18"/>
+                                            <path d="M9 21V9"/>
+                                        </svg>
+                                    </div>
+                                    <h4>Belum ada kategori</h4>
+                                    <p>Tambahkan kategori pertama untuk mulai mengelompokkan produk pakaian.</p>
+                                </td>
+                            </tr>
+
+                            <tr class="category-row" th:each="category, stat : ${categories}">
+                                <td class="number-column" th:text="${stat.count}">1</td>
+                                <td>
+                                    <strong style="color: var(--text-primary); font-weight: 600;" th:text="${category.name}">Pakaian Pria</strong>
+                                </td>
+                                <td style="color: var(--text-secondary);" th:text="${#strings.isEmpty(category.description) ? '—' : category.description}">
+                                    Koleksi pakaian harian
+                                </td>
+                                <td class="action-column">
+                                    <div class="table-actions">
+                                        <form th:action="@{/categories/delete/{id}(id=${category.id})}"
+                                              method="post"
+                                              onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
+                                            <button type="submit" class="delete-btn">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 4px;">
+                                                    <path d="M3 6h18"/>
+                                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                                </svg>
+                                                <span>Hapus</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                AMANA POS · Editorial Store Management
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

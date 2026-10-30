@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Stok | AMANA POS</title>
+    <link rel="stylesheet" th:href="@{/css/stock.css}">
+</head>
+<body>
+    <div class="page-layout">
+        <!-- ─── Scrapbook Sidebar ─── -->
+        <aside class="sidebar" aria-label="Navigasi Utama">
+            <div class="sidebar-brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 17c3.5-3 7 1 10.5-2 2-1.7 4.5-1 7.5-1" stroke="#C7A45D"/>
+                        <path d="M2 12c4-3.5 8 1 12-2 2.5-1.8 5-1 8-1" stroke="#FFFFFF"/>
+                        <circle cx="12" cy="6" r="2.5" fill="#C7A45D" stroke="none"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>AMANA POS</h1>
+                    <p>Atelier & Store Admin</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <p class="nav-label">Menu Utama</p>
+                <ul class="nav-list">
+                    <li>
+                        <a th:href="@{/admin/dashboard}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="7" height="9" x="3" y="3" rx="1.5"/>
+                                    <rect width="7" height="5" x="14" y="3" rx="1.5"/>
+                                    <rect width="7" height="9" x="14" y="12" rx="1.5"/>
+                                    <rect width="7" height="5" x="3" y="16" rx="1.5"/>
+                                </svg>
+                            </span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/products}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m2 9 3-6h14l3 6v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9Z"/>
+                                    <path d="M2 9h20"/>
+                                    <path d="M10 13h4"/>
+                                </svg>
+                            </span>
+                            <span>Produk</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/categories}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+                                    <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+                                    <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+                                </svg>
+                            </span>
+                            <span>Kategori</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/stock}" class="nav-link active">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                                    <path d="m3.3 7 8.7 5 8.7-5"/>
+                                    <path d="M12 22V12"/>
+                                </svg>
+                            </span>
+                            <span>Stok</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/transactions}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+                                    <path d="M14 8H8"/>
+                                    <path d="M16 12H8"/>
+                                    <path d="M13 16H8"/>
+                                </svg>
+                            </span>
+                            <span>Transaksi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/reports}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" x2="18" y1="20" y2="10"/>
+                                    <line x1="12" x2="12" y1="20" y2="4"/>
+                                    <line x1="6" x2="6" y1="20" y2="14"/>
+                                </svg>
+                            </span>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/users}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </span>
+                            <span>Pengguna</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <form class="logout-form" th:action="@{/logout}" method="post">
+                    <button class="logout-button" type="submit">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" x2="9" y1="12" y2="12"/>
+                        </svg>
+                        <span>Keluar</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- ─── Main Content ─── -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-content">
+                    <div class="eyebrow-tag">
+                        <span class="eyebrow-tag-dot" aria-hidden="true"></span>
+                        <span>INVENTARIS & LOGISTIK</span>
+                    </div>
+                    <h2>Manajemen Stok</h2>
+                    <p>Kelola penerimaan restock, pencatatan pengeluaran, serta audit mutasi stok barang toko.</p>
+                </div>
+            </header>
+
+            <!-- ─── Two Side-by-Side Adjustment Forms ─── -->
+            <div th:if="${#lists.isEmpty(activeVariants)}" class="stock-empty" role="status">
+                Belum ada varian produk aktif untuk dicatat. Aktifkan produk dan variannya terlebih dahulu.
+            </div>
+            <section class="stock-forms">
+                <!-- Stok Masuk -->
+                <div class="stock-card">
+                    <div class="stock-card-header">
+                        <div>
+                            <h3>Stok Masuk</h3>
+                            <p>Pencatatan restock atau penerimaan barang baru</p>
+                        </div>
+                        <span class="chip-tag chip-in">IN</span>
+                    </div>
+
+                    <form th:action="@{/admin/stock/in}" method="post">
+                        <div class="form-field">
+                            <label for="variantIn">Pilih Varian Produk</label>
+                            <select id="variantIn" name="variantId" required th:disabled="${#lists.isEmpty(activeVariants)}">
+                                <option value="">Pilih varian...</option>
+                                <option th:each="variant : ${activeVariants}"
+                                        th:value="${variant.id}"
+                                        th:text="${variant.product.name + ' — ' + variant.color + ' / ' + variant.size + ' (Stok: ' + variant.stock + ')'}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="quantityIn">Jumlah Masuk (Pcs)</label>
+                            <input id="quantityIn" type="number" name="quantity" min="1" step="1" placeholder="Contoh: 10" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="notesIn">Catatan / Sumber</label>
+                            <input id="notesIn" type="text" name="notes" maxlength="255" placeholder="Contoh: Restock batch 2 dari konveksi">
+                        </div>
+
+                        <button type="submit" class="btn-stock-in">+ Simpan Stok Masuk</button>
+                    </form>
+                </div>
+
+                <!-- Stok Keluar -->
+                <div class="stock-card">
+                    <div class="stock-card-header">
+                        <div>
+                            <h3>Stok Keluar</h3>
+                            <p>Pencatatan barang rusak, retur, atau susut</p>
+                        </div>
+                        <span class="chip-tag chip-out">OUT</span>
+                    </div>
+
+                    <form th:action="@{/admin/stock/out}" method="post">
+                        <div class="form-field">
+                            <label for="variantOut">Pilih Varian Produk</label>
+                            <select id="variantOut" name="variantId" required th:disabled="${#lists.isEmpty(activeVariants)}">
+                                <option value="">Pilih varian...</option>
+                                <option th:each="variant : ${activeVariants}"
+                                        th:value="${variant.id}"
+                                        th:text="${variant.product.name + ' — ' + variant.color + ' / ' + variant.size + ' (Stok: ' + variant.stock + ')'}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="quantityOut">Jumlah Keluar (Pcs)</label>
+                            <input id="quantityOut" type="number" name="quantity" min="1" step="1" placeholder="Contoh: 2" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="notesOut">Alasan Pengeluaran</label>
+                            <input id="notesOut" type="text" name="notes" maxlength="255" placeholder="Contoh: Cacat kain / sample toko">
+                        </div>
+
+                        <button type="submit" class="btn-stock-out">− Simpan Stok Keluar</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ─── Table 1: Current Inventory Ledger ─── -->
+            <section class="table-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Status Persediaan Seluruh Varian</h3>
+                        <p>Kondisi persediaan barang aktif dan batas minimum restock.</p>
+                    </div>
+                    <span class="count-badge" th:text="${#lists.size(variants)} + ' varian'">0 varian</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>SKU</th>
+                                <th>Warna</th>
+                                <th>Ukuran</th>
+                                <th>Stok Tersedia</th>
+                                <th>Batas Minimum</th>
+                                <th>Status Kondisi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="variant : ${variants}">
+                                <td style="font-weight: 600;" th:text="${variant.product.name}">Kaos Basic</td>
+                                <td>
+                                    <span class="sku-tag" th:text="${variant.sku}">SKU-001</span>
+                                </td>
+                                <td th:text="${variant.color}">Hitam</td>
+                                <td th:text="${variant.size}">M</td>
+                                <td style="font-family: var(--font-mono); font-weight: 600;" th:text="${variant.stock + ' pcs'}">12 pcs</td>
+                                <td style="font-family: var(--font-mono); color: var(--text-secondary);" th:text="${variant.minimumStock + ' pcs'}">5 pcs</td>
+                                <td>
+                                    <span class="status-pill"
+                                          th:classappend="${!variant.active or !variant.product.active ? 'status-inactive' : (variant.stock <= variant.minimumStock ? 'status-warning' : 'status-available')}"
+                                          th:text="${!variant.active or !variant.product.active ? 'Nonaktif' : (variant.stock <= variant.minimumStock ? 'Stok Menipis' : 'Tersedia')}">
+                                        Tersedia
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(variants)}">
+                                <td colspan="7" class="empty-cell">Belum ada varian produk yang tercatat.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ─── Table 2: Stock Movement Audit Log ─── -->
+            <section class="table-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Buku Jurnal Mutasi Stok</h3>
+                        <p>Riwayat audit perubahan keluar-masuk stok barang toko.</p>
+                    </div>
+                    <span class="count-badge" th:text="${#lists.size(movements)} + ' mutasi'">0 mutasi</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Varian Produk</th>
+                                <th>Jenis</th>
+                                <th>Perubahan</th>
+                                <th>Sebelum</th>
+                                <th>Sesudah</th>
+                                <th>Pengguna</th>
+                                <th>Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="movement : ${movements}">
+                                <td style="font-family: var(--font-mono); color: var(--text-secondary); font-size: 11.5px;"
+                                    th:text="${#temporals.format(movement.createdAt, 'dd-MM-yyyy HH:mm')}">22-10-2026 14:30</td>
+                                <td style="font-weight: 500;"
+                                    th:text="${movement.variant.product.name + ' — ' + movement.variant.color + ' / ' + movement.variant.size}">
+                                    Kaos Basic — Hitam / M
+                                </td>
+                                <td>
+                                    <span th:if="${movement.movementType == 'IN'}" class="movement-type-in">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="19" x2="12" y2="5"/>
+                                            <polyline points="5 12 12 5 19 12"/>
+                                        </svg>
+                                        Stok Masuk
+                                    </span>
+                                    <span th:if="${movement.movementType == 'OUT'}" class="movement-type-out">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"/>
+                                            <polyline points="19 12 12 19 5 12"/>
+                                        </svg>
+                                        Stok Keluar
+                                    </span>
+                                    <span th:if="${movement.movementType != 'IN' and movement.movementType != 'OUT'}"
+                                          th:text="${movement.movementType}">ADJUSTMENT</span>
+                                </td>
+                                <td style="font-family: var(--font-mono); font-weight: 600;"
+                                    th:text="${movement.quantityChange}">+10</td>
+                                <td style="font-family: var(--font-mono); color: var(--text-secondary);"
+                                    th:text="${movement.stockBefore}">5</td>
+                                <td style="font-family: var(--font-mono); font-weight: 600;"
+                                    th:text="${movement.stockAfter}">15</td>
+                                <td style="color: var(--text-secondary);"
+                                    th:text="${movement.user.username}">admin</td>
+                                <td style="color: var(--text-muted); font-size: 11.5px;"
+                                    th:text="${movement.notes != null and !movement.notes.isBlank() ? movement.notes : '—'}">Restock</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(movements)}">
+                                <td colspan="8" class="empty-cell">Belum ada riwayat mutasi stok tercatat.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                AMANA POS · Editorial Store Management
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

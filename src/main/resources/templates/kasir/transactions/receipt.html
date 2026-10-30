@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|Struk ${transaction.invoiceNumber} - AMANA POS|">Struk Transaksi | AMANA POS</title>
+
+    <style>
+        :root {
+            --bg-page: #F5F6F2;
+            --text-main: #202D31;
+            --text-secondary: #617178;
+            --text-muted: #879397;
+            --primary: #1F6258;
+            --primary-hover: #285F57;
+            --border: #D8E1DD;
+            --font-sans: "Segoe UI", -apple-system, BlinkMacSystemFont, "Inter", Roboto, sans-serif;
+            --font-mono: "Cascadia Code", "Consolas", "Courier New", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            padding: 32px 16px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* ─── Receipt Paper ─── */
+        .receipt-container {
+            width: 100%;
+            max-width: 380px;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 24px 20px;
+            box-shadow: 0 3px 8px rgba(20, 45, 43, 0.08);
+            position: relative;
+        }
+
+        .receipt-header {
+            text-align: center;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed #B8C4C9;
+        }
+
+        .receipt-brand {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #142D2B;
+            margin-bottom: 2px;
+        }
+
+        .receipt-subtitle {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .receipt-address {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .receipt-meta {
+            padding: 12px 0;
+            border-bottom: 1px dashed #B8C4C9;
+            font-size: 11.5px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meta-label {
+            color: var(--text-secondary);
+        }
+
+        .meta-value {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .meta-value.mono {
+            font-family: var(--font-mono);
+        }
+
+        /* ─── Items Table ─── */
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0 10px;
+            font-size: 12px;
+        }
+
+        .receipt-table th {
+            text-align: left;
+            padding: 6px 0;
+            border-bottom: 1px solid #DCE3E6;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .receipt-table th.col-qty {
+            text-align: center;
+            width: 38px;
+        }
+
+        .receipt-table th.col-subtotal {
+            text-align: right;
+            width: 80px;
+        }
+
+        .receipt-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #F0F4F6;
+            vertical-align: top;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+
+        .item-variant {
+            font-size: 10.5px;
+            color: var(--text-secondary);
+        }
+
+        .item-price {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .col-qty {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        .col-subtotal {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        /* ─── Financial Summary ─── */
+        .receipt-summary {
+            border-top: 1px dashed #B8C4C9;
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+        }
+
+        .summary-line.total {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+            border-top: 1px solid #DCE3E6;
+            padding-top: 8px;
+            margin-top: 4px;
+        }
+
+        .summary-val {
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        .summary-val.total-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .receipt-footer {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed #B8C4C9;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ─── Actions Bar (Screen Only) ─── */
+        .receipt-actions {
+            width: 100%;
+            max-width: 380px;
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 180ms ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: 1px solid transparent;
+        }
+
+        .btn-print {
+            background-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .btn-print:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-back {
+            background-color: #FFFFFF;
+            color: var(--text-main);
+            border-color: var(--border);
+        }
+
+        .btn-back:hover {
+            background-color: #F1F4F1;
+        }
+
+        /* ─── Thermal Print Optimization ─── */
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .receipt-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 4px !important;
+                border-radius: 0 !important;
+            }
+
+            @page {
+                size: auto;
+                margin: 2mm 4mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<main class="receipt-container" aria-label="Struk Belanja">
+    <header class="receipt-header">
+        <h1 class="receipt-brand">AMANA</h1>
+        <p class="receipt-subtitle">Retail Apparel Atelier</p>
+        <p class="receipt-address">Jl. Busana Muslim No. 42 · Storefront POS</p>
+    </header>
+
+    <section class="receipt-meta" aria-label="Informasi Transaksi">
+        <div class="meta-row">
+            <span class="meta-label">No. Faktur</span>
+            <span class="meta-value mono" th:text="${transaction.invoiceNumber}">INV-0000</span>
+        </div>
+        <div class="meta-row">
+            <span class="meta-label">Waktu</span>
+            <span class="meta-value" th:text="${#temporals.format(transaction.createdAt, 'dd-MM-yyyy HH:mm')}">23-10-2026 14:00</span>
+        </div>
+        <div class="meta-row">
+            <span class="meta-label">Kasir</span>
+            <span class="meta-value" th:text="${transaction.cashier.fullName}">Nama Kasir</span>
+        </div>
+        <div class="meta-row">
+            <span class="meta-label">Status</span>
+            <span class="meta-value" th:text="${transaction.status}">COMPLETED</span>
+        </div>
+    </section>
+
+    <table class="receipt-table" aria-label="Daftar Pembelian">
+        <thead>
+        <tr>
+            <th>Deskripsi</th>
+            <th class="col-qty">Qty</th>
+            <th class="col-subtotal">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td>
+                <p class="item-name" th:text="${item.productName}">Kemeja Katun</p>
+                <p class="item-variant">
+                    <span th:text="${item.color}">Warna</span> /
+                    <span th:text="${item.size}">Ukuran</span>
+                </p>
+                <p class="item-price" th:text="|@ Rp ${#numbers.formatInteger(item.unitPrice, 3, 'POINT')}|">@ Rp 0</p>
+            </td>
+            <td class="col-qty" th:text="${item.quantity}">1</td>
+            <td class="col-subtotal" th:text="|Rp ${#numbers.formatInteger(item.subtotal, 3, 'POINT')}|">Rp 0</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <section class="receipt-summary" aria-label="Rincian Pembayaran">
+        <div class="summary-line">
+            <span>Subtotal</span>
+            <span class="summary-val" th:text="|Rp ${#numbers.formatInteger(transaction.subtotal, 3, 'POINT')}|">Rp 0</span>
+        </div>
+        <div class="summary-line">
+            <span>Diskon</span>
+            <span class="summary-val" th:text="|Rp ${#numbers.formatInteger(transaction.discount, 3, 'POINT')}|">Rp 0</span>
+        </div>
+        <div class="summary-line total" th:with="total=${transaction.subtotal.subtract(transaction.discount)}">
+            <span>TOTAL TRANSAKSI</span>
+            <span class="summary-val total-val" th:text="|Rp ${#numbers.formatInteger(total, 3, 'POINT')}|">Rp 0</span>
+        </div>
+    </section>
+
+    <footer class="receipt-footer">
+        <p>Terima kasih atas kunjungan Anda!</p>
+        <p>Pakaian yang sudah dibeli dapat ditukar maksimal 2 hari kerja dengan menyertakan struk fisik ini.</p>
+    </footer>
+</main>
+
+<div class="receipt-actions no-print">
+    <button type="button" class="btn-action btn-print" onclick="window.print()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"/>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect width="12" height="8" x="6" y="14"/>
+        </svg>
+        <span>Cetak Struk (Print)</span>
+    </button>
+    <a th:href="@{/kasir/transactions}" class="btn-action btn-back">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        <span>Transaksi Baru</span>
+    </a>
+</div>
+
+</body>
+</html>

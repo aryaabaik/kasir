@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Produk | AMANA POS</title>
+    <link rel="stylesheet" th:href="@{/css/products.css}">
+</head>
+<body>
+    <div class="page-layout">
+        <!-- ─── Scrapbook Sidebar ─── -->
+        <aside class="sidebar" aria-label="Navigasi Utama">
+            <div class="sidebar-brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 17c3.5-3 7 1 10.5-2 2-1.7 4.5-1 7.5-1" stroke="#C7A45D"/>
+                        <path d="M2 12c4-3.5 8 1 12-2 2.5-1.8 5-1 8-1" stroke="#FFFFFF"/>
+                        <circle cx="12" cy="6" r="2.5" fill="#C7A45D" stroke="none"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>AMANA POS</h1>
+                    <p>Atelier & Store Admin</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <p class="nav-label">Menu Utama</p>
+                <ul class="nav-list">
+                    <li>
+                        <a th:href="@{/admin/dashboard}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="7" height="9" x="3" y="3" rx="1.5"/>
+                                    <rect width="7" height="5" x="14" y="3" rx="1.5"/>
+                                    <rect width="7" height="9" x="14" y="12" rx="1.5"/>
+                                    <rect width="7" height="5" x="3" y="16" rx="1.5"/>
+                                </svg>
+                            </span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/products}" class="nav-link active">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m2 9 3-6h14l3 6v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9Z"/>
+                                    <path d="M2 9h20"/>
+                                    <path d="M10 13h4"/>
+                                </svg>
+                            </span>
+                            <span>Produk</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/categories}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+                                    <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+                                    <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+                                </svg>
+                            </span>
+                            <span>Kategori</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/stock}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                                    <path d="m3.3 7 8.7 5 8.7-5"/>
+                                    <path d="M12 22V12"/>
+                                </svg>
+                            </span>
+                            <span>Stok</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/transactions}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+                                    <path d="M14 8H8"/>
+                                    <path d="M16 12H8"/>
+                                    <path d="M13 16H8"/>
+                                </svg>
+                            </span>
+                            <span>Transaksi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/reports}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" x2="18" y1="20" y2="10"/>
+                                    <line x1="12" x2="12" y1="20" y2="4"/>
+                                    <line x1="6" x2="6" y1="20" y2="14"/>
+                                </svg>
+                            </span>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/users}" class="nav-link">
+                            <span class="nav-icon" aria-hidden="true">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </span>
+                            <span>Pengguna</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <form class="logout-form" th:action="@{/logout}" method="post">
+                    <button class="logout-button" type="submit">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" x2="9" y1="12" y2="12"/>
+                        </svg>
+                        <span>Keluar</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- ─── Main Content ─── -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-content">
+                    <div class="eyebrow-tag">
+                        <span class="eyebrow-tag-dot" aria-hidden="true"></span>
+                        <span>KATALOG AMANA / EDIT</span>
+                    </div>
+                    <h2>Edit Informasi Produk</h2>
+                    <p>Perbarui informasi deskripsi pakaian dan parameter masing-masing varian.</p>
+                </div>
+                <div class="header-actions">
+                    <a th:href="@{/products/{id}(id=${product.id})}" class="secondary-button">← Kembali ke Detail</a>
+                </div>
+            </header>
+
+            <div class="create-page">
+                <section class="create-card">
+                    <p th:if="${error}" class="alert error" th:text="${error}"></p>
+
+                    <form th:action="@{/products/{id}/edit(id=${product.id})}" method="post" enctype="multipart/form-data">
+                        <div class="form-section-header">
+                            <span class="section-num">1</span>
+                            <span>Informasi Utama Produk</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kode Produk</label>
+                            <input type="text" th:value="${product.code}" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Nama Produk</label>
+                            <input id="name" name="name" type="text"
+                                   th:value="${product.name}" maxlength="150" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoryId">Kategori</label>
+                            <select id="categoryId" name="categoryId" required>
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"
+                                        th:selected="${category.id == product.category.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Deskripsi</label>
+                            <textarea id="description" name="description"
+                                      maxlength="500" rows="3"
+                                      th:text="${product.description}"></textarea>
+                        </div>
+
+                        <!-- ─── Foto Produk & Live Preview / Replacement ─── -->
+                        <div class="form-group image-upload-group">
+                            <label>Foto Produk</label>
+                            <div class="image-upload-wrapper">
+                                <div class="image-preview-box" id="imagePreviewBox" title="Klik untuk mengganti foto">
+                                    <div class="image-placeholder-icon" id="previewPlaceholder"
+                                         th:style="${product.imageUrl != null} ? 'display: none;' : 'display: flex;'">
+                                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                                            <polyline points="21 15 16 10 5 21"/>
+                                        </svg>
+                                        <span class="preview-text">Pilih foto pakaian</span>
+                                        <span class="preview-subtext">Maks. 5 MB · JPEG, PNG, WebP</span>
+                                    </div>
+                                    <img id="imagePreview"
+                                         th:src="${product.imageUrl != null} ? @{${product.imageUrl}} : '#'"
+                                         alt="Foto Produk"
+                                         th:style="${product.imageUrl != null} ? 'display: block;' : 'display: none;'" />
+                                </div>
+                                <div class="image-upload-controls">
+                                    <input type="file" id="productImageInput" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" style="display: none;" />
+                                    <input type="hidden" id="removeImageInput" name="removeImage" value="false" />
+
+                                    <button type="button" class="btn-browse-image" id="btnBrowseImage">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                        <span th:text="${product.imageUrl != null} ? 'Ganti Foto' : 'Unggah Foto'">Unggah Foto</span>
+                                    </button>
+                                    <button type="button" class="btn-clear-image" id="btnClearImage"
+                                            th:style="${product.imageUrl != null} ? 'display: inline-flex;' : 'display: none;'">
+                                        Hapus Foto
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-header">
+                            <span class="section-num">2</span>
+                            <span>Parameter Varian Produk</span>
+                        </div>
+
+                        <div th:each="variant, stat : ${variants}" class="variant-edit-item">
+                            <h4 th:text="${'Varian ' + (stat.index + 1) + ' — ' + variant.size + ' / ' + variant.color}">Varian 1</h4>
+
+                            <input type="hidden" name="variantIds" th:value="${variant.id}">
+
+                            <div class="form-group">
+                                <label>SKU (Kode Unik Arsip)</label>
+                                <input type="text" th:value="${variant.sku}" readonly>
+                            </div>
+
+                            <div class="variant-grid-2">
+                                <div class="form-group">
+                                    <label>Ukuran</label>
+                                    <input name="sizes" type="text" th:value="${variant.size}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Warna</label>
+                                    <input name="colors" type="text" th:value="${variant.color}" required>
+                                </div>
+                            </div>
+
+                            <div class="variant-grid-2">
+                                <div class="form-group">
+                                    <label>Harga Beli (Rp)</label>
+                                    <input name="purchasePrices" type="number" min="0" step="0.01"
+                                           th:value="${variant.purchasePrice}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga Jual (Rp)</label>
+                                    <input name="sellingPrices" type="number" min="0" step="0.01"
+                                           th:value="${variant.sellingPrice}" required>
+                                </div>
+                            </div>
+
+                            <div class="variant-grid-2">
+                                <div class="form-group">
+                                    <label>Stok Saat Ini</label>
+                                    <input name="stocks" type="number" min="0"
+                                           th:value="${variant.stock}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Batas Minimum Stok</label>
+                                    <input name="minimumStocks" type="number" min="0"
+                                           th:value="${variant.minimumStock}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="field-hint" style="margin-top: 10px;">
+                            * Untuk menambah varian baru di luar daftar di atas, gunakan tombol "Tambah Varian" pada halaman Detail Produk.
+                        </p>
+
+                        <div class="form-actions">
+                            <a th:href="@{/products/{id}(id=${product.id})}" class="cancel-link">Batal</a>
+                            <button type="submit">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <footer class="page-footer">
+                AMANA POS · Editorial Store Management
+            </footer>
+        </main>
+    </div>
+
+    <script th:inline="javascript">
+        const imageInput = document.getElementById("productImageInput");
+        const removeImageInput = document.getElementById("removeImageInput");
+        const btnBrowse = document.getElementById("btnBrowseImage");
+        const btnClear = document.getElementById("btnClearImage");
+        const previewImg = document.getElementById("imagePreview");
+        const previewPlaceholder = document.getElementById("previewPlaceholder");
+        const previewBox = document.getElementById("imagePreviewBox");
+
+        btnBrowse.addEventListener("click", () => imageInput.click());
+        previewBox.addEventListener("click", () => imageInput.click());
+
+        imageInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Ukuran file gambar melebihi batas maksimal 5 MB.");
+                this.value = "";
+                return;
+            }
+
+            const validTypes = ["image/jpeg", "image/png", "image/webp"];
+            if (!validTypes.includes(file.type)) {
+                alert("Format file tidak didukung. Harap pilih gambar JPEG, PNG, atau WebP.");
+                this.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = "block";
+                previewPlaceholder.style.display = "none";
+                btnClear.style.display = "inline-flex";
+                removeImageInput.value = "false";
+                btnBrowse.querySelector("span").textContent = "Ganti Foto";
+            };
+            reader.readAsDataURL(file);
+        });
+
+        btnClear.addEventListener("click", () => {
+            imageInput.value = "";
+            previewImg.src = "#";
+            previewImg.style.display = "none";
+            previewPlaceholder.style.display = "flex";
+            btnClear.style.display = "none";
+            removeImageInput.value = "true";
+            btnBrowse.querySelector("span").textContent = "Unggah Foto";
+        });
+    </script>
+</body>
+</html>

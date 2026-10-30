@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk | Amana POS</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body class="login-page">
+    <main class="login-shell">
+        <section class="brand-panel" aria-label="Amana Atelier">
+            <img class="editorial-photo"
+                 src="/uploads/products/735e12caf62d464daae398e9e311dbcd.jpg"
+                 alt="Koleksi pakaian Amana dalam cahaya alami">
+            <div class="brand-overlay">
+                <div class="brand-lockup">
+                    <p class="brand-wordmark">AMANA</p>
+                    <p class="brand-descriptor">ATELIER &amp; STORE</p>
+                </div>
+                <p class="brand-statement">Mengelola Toko, dengan Cara yang Lebih Baik.</p>
+            </div>
+        </section>
+
+        <section class="auth-panel" aria-labelledby="login-heading">
+            <div class="auth-content">
+                <p class="eyebrow">AMANA POS <span>·</span> RETAIL MANAGEMENT</p>
+
+                <div th:if="${param.error}" class="feedback error" role="alert">
+                    Username atau password salah, atau akun tidak aktif.
+                </div>
+
+                <div th:if="${param.logout}" class="feedback success" role="status">
+                    Kamu sudah berhasil logout.
+                </div>
+
+                <h1 id="login-heading">Buku Masuk <em>Atelier</em></h1>
+                <p class="description">Masuk untuk melanjutkan aktivitas toko Anda.</p>
+
+                <form class="login-form" th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <label for="username">Nama Pengguna</label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Masukkan nama pengguna"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Kata Sandi</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Masukkan kata sandi"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit">Masuk ke AMANA POS</button>
+                </form>
+
+                <p class="login-footer">AMANA POS · Sistem Manajemen Toko</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

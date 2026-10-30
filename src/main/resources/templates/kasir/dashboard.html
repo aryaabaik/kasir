@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Kasir | AMANA POS</title>
+    <link rel="stylesheet" th:href="@{/css/kasir-dashboard.css}">
+</head>
+<body class="pos-dashboard-body">
+
+<div class="pos-dashboard-layout">
+
+    <!-- ─── Sidebar Kasir (Deep Charcoal-Teal) ─── -->
+    <aside class="pos-sidebar" aria-label="Navigasi Kasir">
+        <div class="sidebar-header">
+            <span class="brand-badge">POS KASIR</span>
+            <h1 class="brand-title">AMANA</h1>
+            <p class="brand-subtitle">Retail Storefront & Checkout</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <p class="nav-section-title">Menu Utama</p>
+            <ul class="sidebar-menu">
+                <li>
+                    <a th:href="@{/kasir/transactions}" class="sidebar-link">
+                        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect width="20" height="14" x="2" y="5" rx="2"/>
+                            <line x1="2" x2="22" y1="10" y2="10"/>
+                        </svg>
+                        <span>Kasir / POS</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/kasir/transactions/history}" class="sidebar-link">
+                        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 8v4l3 3"/>
+                            <circle cx="12" cy="12" r="9"/>
+                        </svg>
+                        <span>Riwayat Transaksi</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/kasir/dashboard}" class="sidebar-link active">
+                        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect width="7" height="9" x="3" y="3" rx="1"/>
+                            <rect width="7" height="5" x="14" y="3" rx="1"/>
+                            <rect width="7" height="9" x="14" y="12" rx="1"/>
+                            <rect width="7" height="5" x="3" y="16" rx="1"/>
+                        </svg>
+                        <span>Dashboard Kasir</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="cashier-info">
+                <div class="cashier-avatar" aria-hidden="true">K</div>
+                <div class="cashier-details">
+                    <p class="cashier-name" sec:authentication="name">Kasir</p>
+                    <div class="cashier-status">
+                        <span class="status-dot"></span>
+                        <span>Shift Aktif</span>
+                    </div>
+                </div>
+            </div>
+            <form class="logout-form" th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="btn-logout" title="Keluar dari sistem POS">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" x2="9" y1="12" y2="12"/>
+                    </svg>
+                    <span>Keluar Shift</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- ─── Main Content ─── -->
+    <main class="pos-dashboard-main">
+        <header class="pos-dashboard-topbar">
+            <h1>Ringkasan Shift</h1>
+            <a th:href="@{/kasir/transactions}" class="btn-pos-action">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="5" rx="2"/>
+                    <line x1="2" x2="22" y1="10" y2="10"/>
+                </svg>
+                <span>Buka Kasir POS</span>
+            </a>
+        </header>
+
+        <div class="pos-dashboard-content">
+            <!-- Operational Summary -->
+            <section class="shift-summary" aria-label="Ringkasan Operasional Hari Ini">
+                <div class="summary-card">
+                    <div class="summary-label">Penjualan Hari Ini</div>
+                    <div class="summary-value" th:text="${'Rp ' + #numbers.formatInteger(todaySales, 3, 'POINT')}">Rp 0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Transaksi</div>
+                    <div class="summary-value" th:text="${todayTransactionCount}">0</div>
+                </div>
+            </section>
+
+            <!-- Recent Transactions Section -->
+            <section class="recent-transactions-section" aria-label="Transaksi Terbaru">
+                <div class="section-header">
+                    <h2 class="section-title">Transaksi Terbaru</h2>
+                    <a th:href="@{/kasir/transactions/history}" class="link-view-all">Lihat Semua</a>
+                </div>
+
+                <div th:if="${#lists.isEmpty(recentTransactions)}" class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="5" rx="2"/>
+                        <line x1="2" x2="22" y1="10" y2="10"/>
+                    </svg>
+                    <p class="empty-title">Belum Ada Transaksi Hari Ini</p>
+                    <p class="empty-text">Mulai proses penjualan dengan membuka kasir POS.</p>
+                    <a th:href="@{/kasir/transactions}" class="btn-empty-action">
+                        <span>Buka Kasir POS</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div th:unless="${#lists.isEmpty(recentTransactions)}" class="transactions-table-wrapper">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>No. Invoice</th>
+                                <th>Waktu</th>
+                                <th class="dashboard-amount-heading">Total</th>
+                                <th>Status</th>
+                                <th class="dashboard-action-heading">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="transaction : ${recentTransactions}" th:with="total=${transaction.subtotal.subtract(transaction.discount)}">
+                                <td class="col-invoice" th:text="${transaction.invoiceNumber}">INV-001</td>
+                                <td class="col-time" th:text="${#temporals.format(transaction.createdAt, 'dd-MM-yyyy HH:mm')}">30-10-2026 14:30</td>
+                                <td class="col-amount" th:text="${'Rp ' + #numbers.formatInteger(total, 3, 'POINT')}">Rp 150.000</td>
+                                <td>
+                                    <span class="status-badge" th:text="${transaction.status}">COMPLETED</span>
+                                </td>
+                                <td class="dashboard-action-cell">
+                                    <a th:href="@{/kasir/transactions/receipt/{invoice}(invoice=${transaction.invoiceNumber})}" class="btn-receipt" title="Lihat Struk">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 6 2 18 2 18 9"/>
+                                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                                            <rect width="12" height="8" x="6" y="14"/>
+                                        </svg>
+                                        <span>Struk</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

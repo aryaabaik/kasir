@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transaksi | AMANA POS</title>
+    <link rel="stylesheet" th:href="@{/css/transactions.css}">
+</head>
+<body>
+<main class="container">
+    <header class="header">
+        <div>
+            <p class="eyebrow">AMANA POS</p>
+            <h1>Transaksi Kasir</h1>
+            <p>Pilih produk, tentukan jumlah, lalu selesaikan pembayaran.</p>
+        </div>
+       <a class="back-link" th:href="${dashboardUrl}">Kembali</a>
+    </header>
+
+    <p class="alert success" th:if="${successMessage}"
+       th:text="${successMessage}"></p>
+    <p class="alert error" th:if="${errorMessage}"
+       th:text="${errorMessage}"></p>
+
+    <form th:action="@{${checkoutUrl}}" method="post">
+
+        <section class="panel">
+            <h2>Daftar Produk</h2>
+
+            <div class="product-list">
+                <div class="product-row" th:each="variant : ${variants}">
+                    <div class="product-info">
+                        <strong th:text="${variant.product.name}">Nama produk</strong>
+                        <span th:text="${variant.color + ' · ' + variant.size}">
+                            Warna · Ukuran
+                        </span>
+                        <span th:text="${'Stok: ' + variant.stock}">Stok: 0</span>
+                        <strong class="price"
+                            th:text="${'Rp ' + #numbers.formatDecimal(
+                                variant.sellingPrice, 0, 'POINT', 0, 'COMMA')}">
+                            Rp 0
+                        </strong>
+                    </div>
+
+                    <input type="hidden" name="variantId"
+                           th:value="${variant.id}">
+
+                    <label class="quantity">
+                        Jumlah
+                        <input type="number" name="quantity"
+                               value="0" min="0"
+                               th:attr="max=${variant.stock}">
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel payment-panel">
+            <h2>Pembayaran</h2>
+            <label for="amountReceived">Uang diterima (Rp)</label>
+            <input id="amountReceived" name="amountReceived"
+                   type="number" min="0" step="1" required
+                   placeholder="Masukkan jumlah pembayaran">
+
+            <button type="submit">Proses Transaksi</button>
+        </section>
+    </form>
+</main>
+</body>
+</html>
