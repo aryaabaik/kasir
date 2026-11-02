@@ -10,6 +10,7 @@ import com.kasir.amana.Service.ProductService;
 import com.kasir.amana.Service.ProductVariantService;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/products")
+@PreAuthorize("hasRole('ADMIN')")
 public class ProductController {
 
     private final ProductService productService;

@@ -60,7 +60,7 @@
                     <p class="cashier-name" sec:authentication="name">Kasir</p>
                     <div class="cashier-status">
                         <span class="status-dot"></span>
-                        <span>Shift Aktif</span>
+                        <span>Sesi Kasir Aktif</span>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" x2="9" y1="12" y2="12"/>
                     </svg>
-                    <span>Keluar Shift</span>
+                    <span>Keluar Sesi</span>
                 </button>
             </form>
         </div>
@@ -236,10 +236,6 @@
                             <span>Subtotal Belanja</span>
                             <span id="summary-subtotal" class="font-mono">Rp 0</span>
                         </div>
-                        <div class="summary-row">
-                            <span>Diskon</span>
-                            <span class="font-mono">Rp 0</span>
-                        </div>
                         <div class="summary-row total-row">
                             <span>TOTAL BAYAR</span>
                             <span id="summary-total" class="total-figure">Rp 0</span>
@@ -333,7 +329,7 @@
 </div>
 
 <!-- ─── Interactive POS Client Controller ─── -->
-<script>
+<script th:inline="javascript">
 (function() {
     'use strict';
 
@@ -344,6 +340,9 @@
     let currentProductData = null;
     let selectedColor = null;
     let selectedVariantId = null;
+
+    // Session cart restoration data from server
+    const sessionCart = /*[[${sessionCart}]]*/ [];
 
     // DOM Elements
     const productGrid = document.getElementById('product-grid');
@@ -399,6 +398,45 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // ─── Session Cart Persistence ───
+    function saveCartToSession() {
+        const items = Array.from(cart.values()).map(item => ({
+            variantId: item.id,
+            quantity: item.qty
+        }));
+        
+        fetch('/kasir/transactions/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value
+            },
+            body: JSON.stringify(items)
+        }).catch(err => console.error('Failed to save cart to session:', err));
+    }
+
+    function restoreCartFromSession() {
+        if (!sessionCart || sessionCart.length === 0) return;
+        
+        sessionCart.forEach(item => {
+            if (item.active && item.variantId && item.quantity > 0) {
+                cart.set(String(item.variantId), {
+                    id: String(item.variantId),
+                    name: item.productName,
+                    code: item.productCode,
+                    sku: item.sku,
+                    size: item.size,
+                    color: item.color,
+                    price: Number(item.price),
+                    stock: item.stock,
+                    qty: item.quantity
+                });
+            }
+        });
+        
+        renderCart();
+    }
 
     // ─── Extract & Render Categories ───
     const categories = new Set();
@@ -692,7 +730,7 @@
         const stock = variantData.stock || 0;
         
         if (stock <= 0) {
-            alert(`Stok pakaian "${variantData.name}" (${variantData.color} ${variantData.size}) habis.`);
+            showNotification('Stok pakaian "' + variantData.name + '" (' + variantData.color + ' ' + variantData.size + ') habis.', 'warning');
             return;
         }
 
@@ -701,7 +739,7 @@
             if (item.qty < stock) {
                 item.qty += 1;
             } else {
-                alert(`Stok pakaian "${variantData.name}" (${variantData.color} ${variantData.size}) tersisa ${stock} pcs.`);
+                showNotification('Stok pakaian "' + variantData.name + '" (' + variantData.color + ' ' + variantData.size + ') tersisa ' + stock + ' pcs.', 'warning');
             }
         } else {
             cart.set(id, {
@@ -718,6 +756,7 @@
         }
 
         renderCart();
+        saveCartToSession();
     }
 
     function updateItemQty(id, newQty) {
@@ -728,17 +767,19 @@
             cart.delete(id);
         } else if (newQty > item.stock) {
             item.qty = item.stock;
-            alert(`Jumlah tidak boleh melebihi stok tersedia (${item.stock} pcs).`);
+            showNotification('Jumlah tidak boleh melebihi stok tersedia (' + item.stock + ' pcs).', 'warning');
         } else {
             item.qty = newQty;
         }
 
         renderCart();
+        saveCartToSession();
     }
 
     function removeItem(id) {
         cart.delete(id);
         renderCart();
+        saveCartToSession();
     }
 
     function clearCart() {
@@ -747,10 +788,17 @@
             cart.clear();
             amountReceivedInput.value = '';
             renderCart();
+            saveCartToSession();
         }
     }
 
     btnClearCart.addEventListener('click', clearCart);
+
+    // ─── Simple Notification System ───
+    function showNotification(message, type) {
+        // For now, use alert - Phase 5 will replace this with proper notifications
+        alert(message);
+    }
 
     // ─── Render Cart Ledger ───
     function renderCart() {
@@ -957,7 +1005,7 @@
     checkoutForm.addEventListener('submit', e => {
         if (cart.size === 0) {
             e.preventDefault();
-            alert('Keranjang belanja masih kosong.');
+            showNotification('Keranjang belanja masih kosong.', 'warning');
             return;
         }
         let total = 0;
@@ -965,7 +1013,7 @@
         const received = parseFloat(amountReceivedInput.value) || 0;
         if (received < total) {
             e.preventDefault();
-            alert('Uang pembayaran masih kurang.');
+            showNotification('Uang pembayaran masih kurang.', 'warning');
             return;
         }
     });
@@ -980,7 +1028,8 @@
             .replace(/'/g, '&#039;');
     }
 
-    // Initialize Empty State
+    // Initialize: Restore cart from session, then render
+    restoreCartFromSession();
     renderCart();
 
 })();

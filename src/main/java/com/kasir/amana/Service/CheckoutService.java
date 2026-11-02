@@ -71,7 +71,7 @@ public class CheckoutService {
 
         BigDecimal total = BigDecimal.ZERO;
 
-        // Validasi semua item terlebih dahulu.
+        // Pre-validate all items without locking to fail fast
         for (CheckoutItem item : items) {
             if (item == null || item.variantId() == null
                     || item.quantity() == null || item.quantity() <= 0) {
@@ -88,15 +88,6 @@ public class CheckoutService {
                         "Produk " + variant.getProduct().getName() + " tidak aktif.");
             }
 
-            if (variant.getStock() == null
-                    || item.quantity() > variant.getStock()) {
-                throw new IllegalArgumentException(
-                        "Stok tidak mencukupi untuk "
-                                + variant.getProduct().getName()
-                                + " (" + variant.getColor()
-                                + ", " + variant.getSize() + ").");
-            }
-
             total = total.add(
                     variant.getSellingPrice()
                             .multiply(BigDecimal.valueOf(item.quantity())));
@@ -109,16 +100,23 @@ public class CheckoutService {
         transaction.setSubtotal(total);
         transaction = transactionRepository.saveAndFlush(transaction);
 
+        // Now lock and update stock atomically
         for (CheckoutItem item : items) {
-            ProductVariant variant = variantRepository.findById(item.variantId())
+            // Acquire pessimistic write lock to prevent concurrent stock modifications
+            ProductVariant variant = variantRepository.findByIdForUpdate(item.variantId())
                     .orElseThrow(() ->
                             new IllegalArgumentException("Varian produk tidak ditemukan."));
 
             int stockBefore = variant.getStock();
             int stockAfter = stockBefore - item.quantity();
 
+            // Re-check stock after acquiring lock (another transaction may have modified it)
             if (stockAfter < 0) {
-                throw new IllegalArgumentException("Stok tidak mencukupi.");
+                throw new IllegalArgumentException(
+                        "Stok tidak mencukupi untuk "
+                                + variant.getProduct().getName()
+                                + " (" + variant.getColor()
+                                + ", " + variant.getSize() + "). Stok tersedia: " + stockBefore);
             }
 
             variant.setStock(stockAfter);

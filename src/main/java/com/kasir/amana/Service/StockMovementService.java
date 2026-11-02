@@ -61,7 +61,8 @@ public class StockMovementService {
                     "Jenis perubahan stok tidak valid.");
         }
 
-        ProductVariant variant = variantRepository.findById(variantId)
+        // Acquire pessimistic write lock to prevent concurrent modifications
+        ProductVariant variant = variantRepository.findByIdForUpdate(variantId)
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "Varian produk tidak ditemukan."));
@@ -70,7 +71,7 @@ public class StockMovementService {
 
         if ("OUT".equals(movementType) && quantity > stockBefore) {
             throw new IllegalArgumentException(
-                    "Stok tidak mencukupi.");
+                    "Stok tidak mencukupi. Stok tersedia: " + stockBefore);
         }
 
         int stockAfter = "IN".equals(movementType)

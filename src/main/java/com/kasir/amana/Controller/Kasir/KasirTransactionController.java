@@ -1,12 +1,15 @@
 
 package com.kasir.amana.Controller.Kasir;
 
+import com.kasir.amana.DTO.CartSessionItem;
 import com.kasir.amana.Model.Product;
 import com.kasir.amana.Model.ProductVariant;
+import com.kasir.amana.Service.CartSessionService;
 import com.kasir.amana.Service.CheckoutService;
 import com.kasir.amana.Service.ProductService;
 import com.kasir.amana.Service.ProductVariantService;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -26,18 +29,21 @@ public class KasirTransactionController {
     private final CheckoutService checkoutService;
     private final ProductService productService;
     private final ProductVariantService variantService;
+    private final CartSessionService cartSessionService;
 
     public KasirTransactionController(
             CheckoutService checkoutService,
             ProductService productService,
-            ProductVariantService variantService) {
+            ProductVariantService variantService,
+            CartSessionService cartSessionService) {
         this.checkoutService = checkoutService;
         this.productService = productService;
         this.variantService = variantService;
+        this.cartSessionService = cartSessionService;
     }
 
     @GetMapping("/kasir/transactions")
-    public String checkoutPage(Model model) {
+    public String checkoutPage(Model model, HttpSession session) {
         // Load active products that have at least one active variant
         List<ProductVariant> activeVariants = variantService.findActiveVariants()
                 .stream()
@@ -87,6 +93,9 @@ public class KasirTransactionController {
         model.addAttribute("products", catalogItems);
         model.addAttribute("checkoutUrl", "/kasir/transactions/checkout");
         model.addAttribute("dashboardUrl", "/kasir/dashboard");
+        
+        // Pass session cart to the page for restoration
+        model.addAttribute("sessionCart", cartSessionService.getCartWithDetails(session));
 
         return "kasir/transactions/checkout";
     }
@@ -145,9 +154,57 @@ public class KasirTransactionController {
             BigDecimal maxPrice
     ) {}
 
+    // ─── Cart Session API Endpoints ───
+
+    /**
+     * Get current cart from session with enriched product details.
+     */
+    @GetMapping("/kasir/transactions/cart")
+    @ResponseBody
+    public ResponseEntity<?> getCart(HttpSession session) {
+        List<CartSessionService.CartItemWithDetails> cart = cartSessionService.getCartWithDetails(session);
+        return ResponseEntity.ok(Map.of("items", cart));
+    }
+
+    /**
+     * Save entire cart to session.
+     */
+    @PostMapping("/kasir/transactions/cart")
+    @ResponseBody
+    public ResponseEntity<?> saveCart(
+            HttpSession session,
+            @RequestBody List<CartSessionItem> items) {
+        cartSessionService.saveCart(session, items);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
+    /**
+     * Update single item quantity in cart.
+     */
+    @PostMapping("/kasir/transactions/cart/update")
+    @ResponseBody
+    public ResponseEntity<?> updateCartItem(
+            HttpSession session,
+            @RequestParam Long variantId,
+            @RequestParam Integer quantity) {
+        cartSessionService.updateQuantity(session, variantId, quantity);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
+    /**
+     * Clear entire cart.
+     */
+    @PostMapping("/kasir/transactions/cart/clear")
+    @ResponseBody
+    public ResponseEntity<?> clearCart(HttpSession session) {
+        cartSessionService.clearCart(session);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
     @PostMapping("/kasir/transactions/checkout")
     public String checkout(
             Authentication authentication,
+            HttpSession session,
             @RequestParam("variantId") List<Long> variantIds,
             @RequestParam("quantity") List<Integer> quantities,
             @RequestParam("amountReceived") BigDecimal amountReceived,
@@ -175,6 +232,9 @@ public class KasirTransactionController {
                     amountReceived
             );
 
+            // Clear cart from session only after successful checkout
+            cartSessionService.clearCart(session);
+
             redirectAttributes.addFlashAttribute(
                     "successMessage",
                     "Transaksi berhasil. Nomor invoice: "
@@ -184,6 +244,7 @@ public class KasirTransactionController {
              + transaction.getInvoiceNumber();
 
         } catch (IllegalArgumentException e) {
+            // Keep cart in session when checkout fails
             redirectAttributes.addFlashAttribute(
                     "errorMessage", e.getMessage());
         }

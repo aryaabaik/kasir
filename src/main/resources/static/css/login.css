@@ -1,362 +1,422 @@
+/* ==========================================================================
+   AMANA POS — Refined Editorial Login (Google Stitch Design System)
+   ========================================================================== */
+
 :root {
     --login-ivory: #F7F2E8;
-    --login-white: #FFFCF7;
+    --login-white: #FFFFFF;
+    --login-surface: #FFFCF7;
     --login-navy: #244766;
+    --login-navy-dark: #19344D;
     --login-teal: #356C70;
+    --login-teal-dark: #2B575A;
     --login-kraft: #C7A77B;
     --login-gold: #C7A45D;
     --login-ink: #26333A;
-    --login-muted: #77736D;
-    --login-border: #E7DED3;
-    --login-error: #9A473E;
-    --login-success: #356C70;
-    --login-sans: "Nunito Sans", "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-    --login-serif: Georgia, "Times New Roman", serif;
+    --login-muted: #647078;
+    --login-border: #DDD4C6;
+    --login-border-input: #BCB0A0;
+    --login-border-focus: #356C70;
+    --login-error: #9A382D;
+    --login-error-bg: #FBECE8;
+    --login-error-border: #D8776B;
+    --login-success: #2B5E54;
+    --login-success-bg: #EAF3EF;
+    --login-success-border: #72A99B;
+    --login-sans: "Nunito Sans", "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --login-serif: Georgia, "Times New Roman", Times, serif;
 }
 
-.login-page,
-.login-page * {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-.login-page {
-    min-height: 100vh;
+html,
+body {
+    height: 100%;
     margin: 0;
-    background: var(--login-ivory);
-    color: var(--login-ink);
-    font-family: var(--login-sans);
-    -webkit-font-smoothing: antialiased;
+    padding: 0;
 }
 
-.login-page body {
-    margin: 0;
+body.login-page {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    background-color: var(--login-ivory);
+    color: var(--login-ink);
+    font-family: var(--login-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .login-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(460px, 0.92fr);
-    min-height: 100vh;
+    grid-template-columns: minmax(0, 1.12fr) minmax(440px, 0.88fr);
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
 }
+
+/* ==========================================================================
+   Left Panel: Editorial Fashion Photography & Statement
+   ========================================================================== */
 
 .brand-panel {
-    position: relative;
     display: flex;
-    min-height: 100vh;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh;
     overflow: hidden;
-    isolation: isolate;
-    background: var(--login-kraft);
+    background-color: var(--login-ivory);
+    border-right: 1px solid var(--login-border);
 }
 
-.brand-panel::after {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(20, 42, 57, 0.2) 0%, transparent 35%, rgba(20, 42, 57, 0.42) 100%);
-    content: "";
-    pointer-events: none;
+.editorial-frame {
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+    background-color: #EFE8DC;
 }
 
 .editorial-photo {
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 100vh;
     object-fit: cover;
-    object-position: center;
+    object-position: center 20%;
 }
 
-.brand-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: clamp(32px, 5vw, 76px);
-    color: var(--login-white);
-}
-
-.brand-lockup {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: fit-content;
-}
-
-.brand-wordmark {
-    margin: 0;
-    color: var(--login-white);
-    font-family: var(--login-serif);
-    font-size: clamp(36px, 4.2vw, 62px);
-    font-weight: 400;
-    letter-spacing: 0.13em;
-    line-height: 0.95;
-    text-transform: uppercase;
-}
-
-.brand-descriptor {
-    margin: 13px 0 0;
-    color: rgba(255, 252, 247, 0.84);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.28em;
-    line-height: 1.4;
+.editorial-caption {
+    flex: 0 0 auto;
+    position: relative;
+    padding: 24px 44px 28px;
+    background-color: var(--login-ivory);
+    border-top: 1px solid var(--login-border);
+    animation: caption-arrive 520ms 120ms both ease-out;
 }
 
 .brand-statement {
-    max-width: 410px;
-    margin: 0;
-    color: var(--login-white);
-    font-family: var(--login-serif);
-    font-size: clamp(24px, 2.4vw, 38px);
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.18;
-}
-
-.auth-panel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    padding: clamp(44px, 7vw, 112px) clamp(32px, 7vw, 120px);
-    background: var(--login-ivory);
-}
-
-.auth-content {
-    width: min(100%, 410px);
-}
-
-.eyebrow {
-    margin: 0 0 28px;
-    color: var(--login-teal);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    line-height: 1.5;
-}
-
-.eyebrow span {
-    margin: 0 5px;
-    color: var(--login-gold);
-}
-
-.auth-content h1 {
-    max-width: 390px;
+    max-width: 520px;
     margin: 0;
     color: var(--login-navy);
     font-family: var(--login-serif);
-    font-size: clamp(40px, 4.3vw, 62px);
+    font-size: clamp(20px, 1.85vw, 26px);
+    font-style: italic;
     font-weight: 400;
-    letter-spacing: -0.045em;
-    line-height: 0.98;
+    letter-spacing: -0.015em;
+    line-height: 1.34;
+}
+
+/* ==========================================================================
+   Right Panel: Minimal Login Form
+   ========================================================================== */
+
+.auth-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 36px clamp(32px, 5vw, 72px);
+    background-color: var(--login-ivory);
+}
+
+.auth-content {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.auth-header {
+    margin-bottom: 28px;
+}
+
+.auth-kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px;
+    color: var(--login-teal);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.auth-kicker::before {
+    width: 28px;
+    height: 1px;
+    background-color: var(--login-kraft);
+    content: "";
+}
+
+.auth-content h1 {
+    margin: 0;
+    color: var(--login-navy);
+    font-family: var(--login-serif);
+    font-size: clamp(38px, 3.8vw, 50px);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
 }
 
 .auth-content h1 em {
     color: var(--login-teal);
     font-style: italic;
+    font-weight: 400;
 }
 
 .description {
-    max-width: 320px;
-    margin: 22px 0 38px;
+    margin: 12px 0 0;
     color: var(--login-muted);
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 14.5px;
+    line-height: 1.55;
 }
 
+/* ==========================================================================
+   Feedback Notifications (Errors & Logout)
+   ========================================================================== */
+
 .feedback {
-    margin: 0 0 22px;
-    padding: 12px 14px;
-    border-left: 3px solid currentColor;
-    font-size: 13px;
+    margin-bottom: 22px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 13.5px;
     line-height: 1.5;
+    font-weight: 500;
 }
 
 .feedback.error {
     color: var(--login-error);
-    background: #F8ECE8;
+    background-color: var(--login-error-bg);
+    border: 1px solid var(--login-error-border);
+    border-left: 4px solid var(--login-error);
 }
 
 .feedback.success {
     color: var(--login-success);
-    background: #EAF2EF;
+    background-color: var(--login-success-bg);
+    border: 1px solid var(--login-success-border);
+    border-left: 4px solid var(--login-success);
 }
+
+/* ==========================================================================
+   Login Form Controls
+   ========================================================================== */
 
 .login-form {
     margin: 0;
 }
 
 .form-group {
-    margin: 0 0 22px;
+    margin-bottom: 22px;
+    animation: field-arrive 460ms both ease-out;
+}
+
+.form-group:nth-child(2) {
+    animation-delay: 80ms;
 }
 
 .form-group label {
     display: block;
-    margin: 0 0 9px;
+    margin-bottom: 8px;
     color: var(--login-ink);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 15px;
+    color: #8C8478;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: color 160ms ease;
 }
 
 .form-group input {
     display: block;
     width: 100%;
-    min-height: 54px;
-    padding: 14px 16px;
-    border: 1px solid var(--login-border);
-    border-radius: 0;
-    outline: 0;
-    background: var(--login-white);
+    height: 52px;
+    padding: 0 16px 0 44px;
+    border: 1.5px solid var(--login-border-input);
+    border-radius: 4px;
+    outline: none;
+    background-color: var(--login-white);
     color: var(--login-ink);
-    font: inherit;
+    font-family: inherit;
     font-size: 15px;
-    line-height: 1.4;
-    transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    line-height: 52px;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
 
 .form-group input::placeholder {
-    color: #A39D94;
+    color: #8C8478;
+    font-weight: 400;
 }
 
 .form-group input:hover {
-    border-color: #CFC1B2;
+    border-color: var(--login-teal);
+}
+
+.input-wrap:focus-within .input-icon {
+    color: var(--login-teal);
 }
 
 .form-group input:focus {
     border-color: var(--login-teal);
-    background: #FFFFFF;
-    box-shadow: 0 0 0 3px rgba(53, 108, 112, 0.14);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(53, 108, 112, 0.16);
 }
 
-.login-form button {
+/* ==========================================================================
+   Primary Action Button
+   ========================================================================== */
+
+.btn-submit {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 12px;
     width: 100%;
-    min-height: 56px;
-    margin-top: 5px;
-    padding: 15px 20px;
+    height: 54px;
+    margin-top: 6px;
+    padding: 0 24px;
     border: 1px solid var(--login-navy);
-    border-radius: 0;
-    background: var(--login-navy);
-    color: var(--login-white);
-    font: inherit;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
+    border-radius: 4px;
+    background-color: var(--login-navy);
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     cursor: pointer;
-    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+    box-shadow: 0 2px 6px rgba(36, 71, 102, 0.16);
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+    animation: field-arrive 460ms 160ms both ease-out;
 }
 
-.login-form button::after {
-    margin-left: 12px;
+.btn-submit .btn-icon {
+    flex-shrink: 0;
     color: var(--login-gold);
-    content: "→";
-    font-size: 18px;
-    font-weight: 400;
+    transition: transform 160ms ease;
 }
 
-.login-form button:hover {
-    border-color: var(--login-teal);
-    background: var(--login-teal);
+.btn-submit:hover {
+    background-color: var(--login-navy-dark);
+    border-color: var(--login-navy-dark);
+    box-shadow: 0 4px 12px rgba(36, 71, 102, 0.24);
 }
 
-.login-form button:active {
+.btn-submit:hover .btn-icon {
+    transform: translateX(3px);
+}
+
+.btn-submit:active {
     transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(36, 71, 102, 0.16);
 }
 
-.login-form button:focus-visible {
-    outline: 3px solid rgba(53, 108, 112, 0.35);
+.btn-submit:focus-visible {
+    outline: 2px solid var(--login-teal);
     outline-offset: 3px;
 }
 
-.login-footer {
-    margin: 58px 0 0;
-    padding-top: 18px;
-    border-top: 1px solid var(--login-border);
-    color: var(--login-muted);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    line-height: 1.5;
-}
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
     .login-shell {
-        grid-template-columns: minmax(0, 0.95fr) minmax(380px, 1.05fr);
+        grid-template-columns: 1fr 1fr;
     }
 
     .auth-panel {
-        padding-right: 42px;
-        padding-left: 42px;
+        padding: 32px 36px;
+    }
+
+    .editorial-caption {
+        padding: 20px 28px;
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+    body.login-page {
+        height: auto;
+        max-height: none;
+        overflow-y: auto;
+    }
+
     .login-shell {
         display: block;
-        min-height: 100vh;
+        height: auto;
+        max-height: none;
+        overflow: visible;
     }
 
     .brand-panel {
-        min-height: 270px;
-        height: 39vh;
-        max-height: 360px;
+        height: 40vh;
+        min-height: 280px;
+        max-height: 380px;
+        border-right: none;
+        border-bottom: 1px solid var(--login-border);
     }
 
-    .editorial-photo {
-        min-height: 270px;
-    }
-
-    .brand-overlay {
-        padding: 28px 26px;
-    }
-
-    .brand-wordmark {
-        font-size: 38px;
-    }
-
-    .brand-statement {
-        max-width: 300px;
-        font-size: 25px;
+    .editorial-caption {
+        display: none;
     }
 
     .auth-panel {
-        min-height: 61vh;
-        align-items: flex-start;
-        padding: 44px 26px 34px;
-    }
-
-    .auth-content {
-        width: 100%;
-        max-width: 410px;
-        margin: 0 auto;
-    }
-
-    .eyebrow {
-        margin-bottom: 22px;
-    }
-
-    .auth-content h1 {
-        font-size: 44px;
-    }
-
-    .description {
-        margin-top: 18px;
-        margin-bottom: 30px;
-    }
-
-    .login-footer {
-        margin-top: 42px;
+        height: auto;
+        min-height: 60vh;
+        padding: 40px 24px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .editorial-caption,
+    .form-group,
     .form-group input,
-    .login-form button {
-        transition: none;
+    .btn-submit,
+    .btn-submit .btn-icon {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+@keyframes field-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes caption-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
